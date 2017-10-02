@@ -1,55 +1,15 @@
 ---
 
-- name: Check if Go was already downloaded
-  stat:
-    path: /tmp/go-linux.tar.gz
-  register: go_existing
+- name: Install PPA repos
+  apt_repository:
+    repo: ppa:masterminds/glide
+    update_cache: yes
   become: yes
 
-- name: Get Go
-  get_url:
-    url: https://storage.googleapis.com/golang/go1.9.linux-amd64.tar.gz
-    dest: /tmp/go-linux.tar.gz
-  become: yes
-  register: go_downloaded
-  when:
-    - not go_downloaded.stat.exists
-
-- name: Check if go destination exists
-  stat:
-    path: /usr/local/go
-  register: go_folder
-  become: yes
-
-- name: Create Go destination folder
-  file:
-    path: /usr/local/go
-    state: directory
-  become: yes
-
-- name: Extract Go
-  unarchive:
-    src: /tmp/go-linux.tar.gz
-    dest: /usr/local/go
-  when:
-    - go_downloaded|succeeded
-    - go_folder.stat.exists
-  become: yes
-
-- name: Add the GO Path in PATH
-  shell: >-
-    echo 'export PATH=$PATH:/usr/local/go/bin' > /etc/profile.d/go.sh
-  become: yes
-
-- name: Load the PATH
-  shell: >-
-    source /etc/profile.d/go.sh
-  become: yes
-
-- name: Setup
-  setup:
-
-- name: Install glide
-  shell: >-
-    curl https://glide.sh/get | sh
+- name: Install go
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - golang-go
+    - glide
   become: yes

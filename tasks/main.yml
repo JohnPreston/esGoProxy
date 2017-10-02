@@ -6,3 +6,9 @@
   include: "install_go_{{ ansible_pkg_mgr|lower }}.yml"
   become: yes
 
+- name: Get the binary
+  get_url:
+    url: https://github.com/abutaha/aws-es-proxy/releases/download/v0.3/aws-es-proxy-0.3-linux-amd64
+    dest: /usr/bin/aws-es-proxy
+    mode: 755
+  become: yes
