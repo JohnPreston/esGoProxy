@@ -1,0 +1,8 @@
+---
+# tasks file for esGoProxy
+
+
+- name: Install go
+  include: "install_go_{{ ansible_pkg_mgr|lower }}.yml"
+  become: yes
+
