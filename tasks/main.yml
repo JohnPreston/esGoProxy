@@ -1,6 +1,11 @@
 ---
 # tasks file for esGoProxy
 
+- name: Fail if searchDomainEndpoint not defined
+  fail:
+    msg: "searchDomainEndpoint needs to be defined"
+  when:
+    - not searchDomainEndpoint
 
 - name: Install go
   include: "install_go_{{ ansible_pkg_mgr|lower }}.yml"
@@ -12,3 +17,11 @@
     dest: /usr/bin/aws-es-proxy
     mode: 755
   become: yes
+
+- name: Create the service file
+  template:
+    src: esgoproxy.service.j2
+    dest: /etc/systemd/system/esgoproxy.service
+  become: yes
+  mode: 755
+

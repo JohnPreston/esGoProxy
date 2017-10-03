@@ -1,0 +1,9 @@
+[Unit]
+Description=A high performance web server and a reverse proxy server
+
+[Service]
+Type=simple
+PIDFile=/tmp/proxy.pid
+ExecStart=/usr/bin/aws-es-proxy -endpoint https://{{ searchDomainEndpoint }}
+TimeoutStopSec=5
+KillMode=mixed
