@@ -10,7 +10,7 @@
   get_url:
     url: https://github.com/abutaha/aws-es-proxy/releases/download/v0.4/aws-es-proxy-0.4-linux-amd64
     dest: /opt/aws-es-proxy
-    chmod: 755
+    mode: 755
   become: yes
 
 - name: Put the AWS ES proxy in the bin path
